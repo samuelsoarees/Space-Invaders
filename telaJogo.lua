@@ -15,8 +15,31 @@ function scene:create(event)
 	
 	espacoSideral:criar()
 	
-	sceneGroup:insert(espacoSideral.nave.design)
+	butaoD = widget.newButton({x =(display.contentWidth/4)*3 ,y =display.contentHeight/2 ,width = display.contentWidth/2, height = display.contentHeight  ,onRelease = moverDireita})
+	butaoE = widget.newButton({x =display.contentWidth/4 ,y =display.contentHeight/2 ,width = display.contentWidth/2, height = display.contentHeight ,onRelease = moverEsquerda})
 	
+	sceneGroup:insert(espacoSideral.nave.design)
+	sceneGroup:insert(butaoD)
+	sceneGroup:insert(butaoE)
+	
+	
+end
+
+
+
+
+function moverEsquerda(event) 
+
+		espacoSideral.nave:moverEsquerda()
+
+end
+
+
+
+function moverDireita(event)
+
+	espacoSideral.nave:moverDireita()
+
 end
 
 

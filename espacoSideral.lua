@@ -10,8 +10,10 @@ espacoSideral  = {
 
 function espacoSideral:criar()
 
- self.nave = nave:criar()
+	self.nave = nave:criar()
 
 end
 
 return espacoSideral
+
+
