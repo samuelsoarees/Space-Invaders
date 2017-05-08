@@ -10,9 +10,9 @@ local nave = {
 
 function nave:criar() 
 
-	nave.posicaoX = display.contentWidth/2
-	nave.posicaoY = display.contentHeight - 20
-	nave.design = display.newCircle(nave.posicaoX ,nave.posicaoY  -  20, 10)
+	self.posicaoX = display.contentWidth/2
+	self.posicaoY = display.contentHeight - 20
+	self.design = display.newCircle(self.posicaoX ,self.posicaoY  -  20, 10)
 	
 	return nave
 
@@ -23,7 +23,7 @@ end
 
 function nave:moverEsquerda()
 
-	nave.design.x = nave.design.x - 10
+	self.design.x = self.design.x - 10
 	
 	
 end
@@ -31,7 +31,7 @@ end
 
 function nave:moverDireita()
 
-	nave.design.x = nave.design.x + 10
+	self.design.x = self.design.x + 10
 
 end
 

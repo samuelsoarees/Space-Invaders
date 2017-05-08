@@ -1,9 +1,11 @@
 
 local nave = require ("nave")
+local alien = require ("alien")
 
 espacoSideral  = {
 
-	nave 
+	nave,
+	alien
 
 }
 
@@ -11,6 +13,7 @@ espacoSideral  = {
 function espacoSideral:criar()
 
 	self.nave = nave:criar()
+	self.alien = alien:criar()
 
 end
 
