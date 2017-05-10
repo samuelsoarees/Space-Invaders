@@ -1,3 +1,5 @@
+local physics = require ("physics")
+
 
 local nave = {
 	
@@ -13,12 +15,15 @@ function nave:criar()
 	self.posicaoX = display.contentWidth/2
 	self.posicaoY = display.contentHeight - 20
 	self.design = display.newCircle(self.posicaoX ,self.posicaoY  -  20, 10)
+
+
+	physics.start(true)
+	physics.setGravity(0,0)
+	physics.addBody(nave.design,{friction = 1, bounce = 0})
 	
 	return nave
 
 end
-
-
 
 
 function nave:moverEsquerda()
