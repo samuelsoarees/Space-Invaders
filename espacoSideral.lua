@@ -1,9 +1,11 @@
 local nave = require ("nave")
 local alien = require ("alien")
+local escudo = require("escudo")
 
 espacoSideral  = {
 
 	nave,
+	escudo = {},
 	alien = {}
 
 }
@@ -11,14 +13,36 @@ espacoSideral  = {
 function espacoSideral:criar()
 
 	self.nave = nave:criar()
-
+	self:criarAliens()
 	
+	
+end
+
+function espacoSideral:criarEscudos()
+	
+	local posicaoX = display.contentWidth/4
+	local posicaoY = display.contentHeight/5
+
+
+	for i = 1 , 3 , 1 do
+		local novoEscudo = escudo:new()
+
+		novoEscudo.design = display.newCircle(posicaoX,(posicaoY*4),15)
+		
+		espacoSideral.escudo = novoEscudo
+
+		posicaoX = posicaoX + 80
+
+	end
+
+
+
 end
 
 
 
-
 function espacoSideral:criarAliens()
+	
 	local posicaoX = display.contentWidth/4
 	local posicaoY = display.contentHeight/4
 
@@ -26,7 +50,8 @@ function espacoSideral:criarAliens()
 
 		for j = 1 , 8, 1 do
 
-			novoAlien = alien:new()		
+			local novoAlien = alien:new()		
+			
 			novoAlien.design = display.newRect(posicaoX,posicaoY,15,15)
 
 			espacoSideral.alien = novoAlien
@@ -40,8 +65,7 @@ function espacoSideral:criarAliens()
 
 	end
 
-
-
+	return espacoSideral.alien
 
 end
 
