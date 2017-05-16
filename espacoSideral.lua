@@ -40,7 +40,7 @@ function espacoSideral:criarEscudos()
 end
 
 
-
+--Cria todos os aliens e adiciona na tabela de espacoSideral
 function espacoSideral:criarAliens()
 	
 	local posicaoX = display.contentWidth/4
@@ -52,9 +52,11 @@ function espacoSideral:criarAliens()
 
 			local novoAlien = alien:new()		
 			
+			novoAlien.posicaoX = posicaoX
+			novoAlien.posicaoY = posicaoY
 			novoAlien.design = display.newRect(posicaoX,posicaoY,15,15)
 
-			espacoSideral.alien = novoAlien
+			table.insert(espacoSideral.alien, novoAlien)
 
 			posicaoX = posicaoX + 20
 
@@ -64,6 +66,7 @@ function espacoSideral:criarAliens()
 			posicaoY = posicaoY + 20
 
 	end
+
 
 	return espacoSideral.alien
 
