@@ -30,9 +30,10 @@ function scene:create(event)
 	espacoSideral:criarEscudos()
 
 	
-	butaoD = widget.newButton({x =(display.contentWidth/4)*3 ,y =display.contentHeight/2 ,width = display.contentWidth/2, height = display.contentHeight  ,onRelease = moverDireita})
-	butaoE = widget.newButton({x =display.contentWidth/4 ,y =display.contentHeight/2 ,width = display.contentWidth/2, height = display.contentHeight ,onRelease = moverEsquerda})
-	
+	local butaoD = widget.newButton({x =(display.contentWidth/4)*3 ,y =display.contentHeight/3 ,width = display.contentWidth/2, height = display.contentHeight/4 * 2  ,onRelease = moverDireita})
+	local butaoE = widget.newButton({x =display.contentWidth/4 ,y =display.contentHeight/3 ,width = display.contentWidth/2, height = display.contentHeight/4 *2 ,onRelease = moverEsquerda})
+	local atirar = widget.newButton({x =display.contentWidth/2 ,y =display.contentHeight/4 *3 ,width = display.contentWidth, height = display.contentHeight/4 ,onRelease = atirarNave})
+
 	
 	local linhaDireita= display.newLine(display.contentWidth, 0 , display.contentWidth , display.contentHeight )
 	local linhaEsquerda = display.newLine(0,0,0,display.contentHeight)
@@ -60,7 +61,7 @@ function scene:create(event)
 
 
 	-- Move os alienigenas a cada um segundo
-	tempo = timer.performWithDelay(5000,moverAliens, 0)	
+	tempo = timer.performWithDelay(1000,moverAliens, 0)	
 
 end
 
@@ -140,6 +141,13 @@ function colisaoDireita()
 	end
 
 	
+end
+
+
+function atirarNave(event)
+	
+	
+
 end
 
 
