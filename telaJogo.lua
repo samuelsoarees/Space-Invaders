@@ -8,10 +8,11 @@ local espacoSideral = require("espacoSideral")
 
 local physics = require("physics")
 
-
 local sceneAliens
 
 local tempo
+
+local direcao = "direita"
 
 
 
@@ -59,32 +60,70 @@ function scene:create(event)
 
 
 	-- Move os alienigenas a cada um segundo
-	tempo = timer.performWithDelay(1000,moverAliens, 0)	
+	tempo = timer.performWithDelay(5000,moverAliens, 0)	
 
 end
 
 
 --Move os alienigenas na tela
 function moverAliens()
-	local retorno = colisao()
+	local colisaoDireita = colisaoDireita()
+	local colisaoEsquerda = colisaoEsquerda()
 	
-	if retorno == 1 then
-		-- mover o grupo x,y
-		sceneAliens:translate(10,0)
+	if direcao == "direita" then
 
-	else
+		if colisaoDireita ~= true then
+			-- mover o grupo x,y
+			sceneAliens:translate(10,0)
 
-		timer.pause(tempo)
+		else
+
+			sceneAliens:translate(0,10)
+			direcao = "esquerda"
+
+		end	
+
+	elseif direcao == "esquerda" then
+
+		if colisaoEsquerda ~= true then
+			
+			sceneAliens:translate(-10,0)
+
+		else	
+
+			sceneAliens:translate(0,10)
+			direcao = "direita"
+		--timer.pause(tempo)
+
+
+		end
 	end
 	
 	
 end
 
 
---Verifica a colisao nas paredes
-function colisao()
+
+function colisaoEsquerda()
 	
-	local retorno = false
+	for i = 1, sceneAliens.numChildren do
+
+		local x,y = sceneAliens[i]:localToContent(0,0)
+
+		if x == 10 then
+			
+			return true
+
+		end	
+
+	end
+
+end
+
+
+
+--Verifica a colisao nas paredes
+function colisaoDireita()
 
 	-- for para verificar se cada alien esta colidindo com a parede
 	for i = 1 , sceneAliens.numChildren do
@@ -92,36 +131,21 @@ function colisao()
 		-- Variaveis que vão obter posição x e y de cada elemento do grupo
 		local x , y = sceneAliens[i]:localToContent(0,0) 
 		
-		if  x < display.contentWidth  then
+		if  x == (display.contentWidth - 10)  then
 		
-			retorno = true
-
-		else 
-			retorno = false
-
+			return true
+	
 		end
 
 	end
 
-
-	if retorno == true then
-		return 1 
-
-	else 
-
-		return 0
-
-	end		
-
-
-
-
+	
 end
 
 
 function moverEsquerda(event) 
 
-		espacoSideral.nave:moverEsquerda()
+	espacoSideral.nave:moverEsquerda()
 
 end
 
