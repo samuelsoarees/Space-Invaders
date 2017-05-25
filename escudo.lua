@@ -1,25 +1,12 @@
+local class = require ("30log")
 
-
-local escudo = {
+local escudo =class("escudo", {
 	
 	design
 
 }
 
-
-
-function escudo:new()
-	
-	local novoEscudo = {}
-
-	setmetatable(novoEscudo,{__index = alien})
-
-	return novoEscudo
-
-end
-
-
-
+)
 
 
 return  escudo

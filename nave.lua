@@ -1,13 +1,15 @@
 local physics = require ("physics")
+local class = require("30log")
 
-
-local nave = {
+local nave = class("nave", {
 	
 	posicaoX,
 	posicaoY,
 	design
 	
 }
+
+)
 
 
 function nave:criar() 

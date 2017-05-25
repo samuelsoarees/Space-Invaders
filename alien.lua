@@ -1,20 +1,15 @@
-
-local alien = {
+local class = require("30log")
+local alien =class (
+	"alien",
 	
+	{
 	posicaoX,
 	posicaoY,
-	design	
+	design
+	}	
 
-}
+)
 
-function alien:new()
 
-	local novaAlien = {}
-
-	setmetatable(novaAlien,{__index = alien})
-
-	return novaAlien
-
-end
 
 return alien
