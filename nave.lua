@@ -3,20 +3,15 @@ local class = require("30log")
 
 local nave = class("nave", {
 	
-	posicaoX,
-	posicaoY,
 	design
 	
 }
 
 )
 
-
 function nave:criar() 
 
-	self.posicaoX = display.contentWidth/2
-	self.posicaoY = display.contentHeight - 20
-	self.design = display.newCircle(self.posicaoX ,self.posicaoY  -  20, 10)
+	self.design = display.newCircle(display.contentWidth/2 ,display.contentHeight - 40, 10)
 
 
 	physics.start(true)
