@@ -30,8 +30,8 @@ function scene:create(event)
 	espacoSideral:criarEscudos()
 
 	
-	local butaoD = widget.newButton({x =(display.contentWidth/4)*3 ,y =display.contentHeight/3 ,width = display.contentWidth/2, height = display.contentHeight/4 * 2  ,onRelease = moverDireita})
-	local butaoE = widget.newButton({x =display.contentWidth/4 ,y =display.contentHeight/3 ,width = display.contentWidth/2, height = display.contentHeight/4 *2 ,onRelease = moverEsquerda})
+	local butaoD = widget.newButton({x =(display.contentWidth/4)*3 ,y =display.contentHeight/3 ,width = display.contentWidth/2, height = display.contentHeight/4 * 2  ,onRelease = moverNaveDireita})
+	local butaoE = widget.newButton({x =display.contentWidth/4 ,y =display.contentHeight/3 ,width = display.contentWidth/2, height = display.contentHeight/4 *2 ,onRelease = moverNaveEsquerda})
 	local atirar = widget.newButton({x =display.contentWidth/2 ,y =display.contentHeight/4 *3 ,width = display.contentWidth, height = display.contentHeight/4 ,onRelease = atirarNave})
 
 	
@@ -104,7 +104,7 @@ function moverAliens()
 end
 
 
-
+--Verifica a colisao dos aliens nas paredes a esquerda
 function colisaoEsquerda()
 	
 	for i = 1, sceneAliens.numChildren do
@@ -123,13 +123,11 @@ end
 
 
 
---Verifica a colisao nas paredes
+--Verifica a colisao dos aliens nas paredes a direita
 function colisaoDireita()
 
-	-- for para verificar se cada alien esta colidindo com a parede
 	for i = 1 , sceneAliens.numChildren do
 		
-		-- Variaveis que vão obter posição x e y de cada elemento do grupo
 		local x , y = sceneAliens[i]:localToContent(0,0) 
 		
 		if  x == (display.contentWidth - 10)  then
@@ -151,7 +149,7 @@ function atirarNave(event)
 end
 
 
-function moverEsquerda(event) 
+function moverNaveEsquerda(event) 
 
 	espacoSideral.nave:moverEsquerda()
 
@@ -159,7 +157,7 @@ end
 
 
 
-function moverDireita(event)
+function moverNaveDireita(event)
 
 	espacoSideral.nave:moverDireita()
 
