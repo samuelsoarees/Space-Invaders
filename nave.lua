@@ -22,20 +22,4 @@ function nave:criar()
 
 end
 
-
-function nave:moverEsquerda()
-
-	self.design.x = self.design.x - 10
-	
-	
-end
-
-
-function nave:moverDireita()
-
-	self.design.x = self.design.x + 10
-
-end
-
-
 return nave
