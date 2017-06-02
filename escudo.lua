@@ -4,7 +4,7 @@ local escudo =class("escudo", {
 	
 	design
 
-}
+	}
 
 )
 

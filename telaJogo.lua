@@ -8,9 +8,11 @@ local espacoSideral = require("espacoSideral")
 
 local physics = require("physics")
 
+local tiroNave = {}
+
 local sceneAliens
 
-local tempo
+local tempoAlien
 
 local direcao = "direita"
 
@@ -20,6 +22,7 @@ function scene:create(event)
 	
 	local sceneGroup = self.view
 	sceneAliens = display.newGroup()
+	sceneTiros = display.newGroup()
 
 	--cria a nave espacial
 	espacoSideral:criar()
@@ -61,7 +64,10 @@ function scene:create(event)
 
 
 	-- Move os alienigenas a cada um segundo
-	tempo = timer.performWithDelay(1000,moverAliens, 0)	
+	tempoAlien = timer.performWithDelay(1000,moverAliens, 0)	
+	
+	
+	tempoTiro = timer.performWithDelay(0500,moverTiroNave, 0)	
 
 end
 
@@ -70,7 +76,8 @@ end
 function moverAliens()
 	local colisaoDireita = colisaoDireita()
 	local colisaoEsquerda = colisaoEsquerda()
-	
+
+
 	if direcao == "direita" then
 
 		if colisaoDireita ~= true then
@@ -94,13 +101,17 @@ function moverAliens()
 
 			sceneAliens:translate(0,10)
 			direcao = "direita"
-		--timer.pause(tempo)
+		
 
 
 		end
+	elseif direcao == "baixo" then
+
+		timer.pause(tempoAlien)
+
+
 	end
-	
-	
+
 end
 
 
@@ -137,21 +148,59 @@ function colisaoDireita()
 		end
 
 	end
-
 	
 end
+
+
+
+function removerTiro()
+	
+	if tiroNave.design ~= nil and tiroNave.design.y <= 0  then
+
+		tiroNave.design:removeSelf()
+
+		tiroNave.design = nil
+
+		return true
+
+	end
+
+end
+
+
+
+
+function moverTiroNave()
+	
+	if tiroNave.design ~= nil then
+
+		tiroNave.design.y= tiroNave.design.y-10
+
+	end
+
+
+	if removerTiro() == true then
+		timer.pause(tempoTiro)
+
+	end
+
+
+end
+
 
 
 function atirarNave(event)
 	
-	
+	tiroNave.design = espacoSideral:naveAtirar(espacoSideral.nave.design.x,espacoSideral.nave.design.y)
+	timer.resume(tempoTiro)
 
 end
 
 
+
 function moverNaveEsquerda(event) 
 
-	espacoSideral.nave:moverEsquerda()
+	espacoSideral:moverNaveEsquerda()
 
 end
 
@@ -159,7 +208,7 @@ end
 
 function moverNaveDireita(event)
 
-	espacoSideral.nave:moverDireita()
+	espacoSideral:moverNaveDireita()
 
 end
 

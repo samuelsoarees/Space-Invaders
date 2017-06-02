@@ -1,21 +1,21 @@
 local nave = require ("nave")
 local alien = require ("alien")
 local escudo = require("escudo")
+local tiro = require("tiro")
 
 espacoSideral  = {
 
 	nave,
 	escudo = {},
-	alien = {}
+	alien = {},
+	tiro
 
 }
 
 function espacoSideral:criar()
 
 	self.nave = nave:criar()
-	self:criarAliens()
-	
-	
+
 end
 
 function espacoSideral:criarEscudos()
@@ -34,8 +34,6 @@ function espacoSideral:criarEscudos()
 		posicaoX = posicaoX + 80
 
 	end
-
-
 
 end
 
@@ -71,6 +69,33 @@ function espacoSideral:criarAliens()
 	return espacoSideral.alien
 
 end
+
+
+
+function espacoSideral:naveAtirar(posicaoNaveX,posicaoNaveY)
+
+	self.tiro = tiro:new()
+
+	self.tiro.design = display.newLine(posicaoNaveX,posicaoNaveY-20, posicaoNaveX , posicaoNaveY)
+	
+	return self.tiro.design
+
+end
+
+
+function espacoSideral:moverNaveEsquerda()
+
+	self.nave.design.x = self.nave.design.x - 10
+
+end
+
+
+function espacoSideral:moverNaveDireita()
+
+	self.nave.design.x = self.nave.design.x + 10
+
+end
+
 
 
 return espacoSideral
