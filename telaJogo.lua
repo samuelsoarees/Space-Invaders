@@ -67,7 +67,7 @@ function scene:create(event)
 	tempoAlien = timer.performWithDelay(1000,moverAliens, 0)	
 	
 	
-	tempoTiro = timer.performWithDelay(0500,moverTiroNave, 0)	
+	tempoTiro = timer.performWithDelay(0005,moverTiroNave, 0)	
 
 end
 
@@ -191,8 +191,12 @@ end
 
 function atirarNave(event)
 	
-	tiroNave.design = espacoSideral:naveAtirar(espacoSideral.nave.design.x,espacoSideral.nave.design.y)
-	timer.resume(tempoTiro)
+	if tiroNave.design ==nil then
+		
+		tiroNave.design = espacoSideral:naveAtirar(espacoSideral.nave.design.x,espacoSideral.nave.design.y)
+		timer.resume(tempoTiro)
+
+	end
 
 end
 
