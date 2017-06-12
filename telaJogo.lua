@@ -21,6 +21,8 @@ local direcao = "direita"
 function scene:create(event) 
 	
 	local sceneGroup = self.view
+
+	myImage = display.newImage( "Space.jpg" )
 	sceneAliens = display.newGroup()
 	sceneTiros = display.newGroup()
 
@@ -63,6 +65,7 @@ function scene:create(event)
 	end
 
 	--grupo da tela
+	sceneGroup:insert(myImage)
 	sceneGroup:insert(espacoSideral.nave.design)
 	sceneGroup:insert(butaoD)
 	sceneGroup:insert(butaoE)

@@ -8,7 +8,7 @@
 
 local composer = require("composer")
 
-composer.gotoScene("telaJogo")
+composer.gotoScene("telaMenu")
 
 
 
