@@ -54,6 +54,10 @@ function espacoSideral:criarAliens()
 			novoAlien.posicaoY = posicaoY
 			novoAlien.design = display.newRect(posicaoX,posicaoY,15,15)
 
+			physics.addBody(novoAlien.design,{friction = 1, bounce = 0})
+
+			novoAlien.design.isFixedRotation = true
+
 			table.insert(espacoSideral.alien, novoAlien)
 
 			posicaoX = posicaoX + 20
@@ -76,7 +80,9 @@ function espacoSideral:naveAtirar(posicaoNaveX,posicaoNaveY)
 
 	self.tiro = tiro:new()
 
-	self.tiro.design = display.newLine(posicaoNaveX,posicaoNaveY-20, posicaoNaveX , posicaoNaveY)
+	self.tiro.design = display.newLine(posicaoNaveX,posicaoNaveY-20, posicaoNaveX , posicaoNaveY - 15)
+
+	physics.addBody(self.tiro.design,{friction = 1, bounce = 0})
 	
 	return self.tiro.design
 

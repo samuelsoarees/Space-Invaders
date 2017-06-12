@@ -49,11 +49,16 @@ function scene:create(event)
 
 	physics.addBody(linhaEsquerda, "static", { friction = 1, bounce = 0 })		
 
+	physics.setGravity(0,0)
+	--physics.setDrawMode("hybrid")
+
 
 	-- Adiciona toda a tabela de alienigenas criados ao grupo especifico
 	for i = 1 , #aliens do
 		
-		sceneAliens:insert(aliens[i].design)
+		--sceneAliens:insert(aliens[i].design)
+		--aliens[i].design.collision =  colisaoTiro
+		aliens[i].design:addEventListener("collision", colisaoTiro)
 
 	end
 
@@ -194,12 +199,33 @@ function atirarNave(event)
 	if tiroNave.design ==nil then
 		
 		tiroNave.design = espacoSideral:naveAtirar(espacoSideral.nave.design.x,espacoSideral.nave.design.y)
+		tiroNave.collision = colisaoTiro
+		--tiroNave.design:addEventListener("collision", colisaoTiro)
 		timer.resume(tempoTiro)
+
 
 	end
 
 end
 
+
+function colisaoTiro(event)
+	
+	if event.phase == "began" then
+
+		
+
+		timer.pause(tempoTiro)
+		tiroNave.design:removeSelf()
+		tiroNave.design = nil
+		event.target:removeSelf()
+
+		
+
+	end
+
+
+end
 
 
 function moverNaveEsquerda(event) 
@@ -218,5 +244,7 @@ end
 
 
 scene:addEventListener( "create", scene )
+
+
 
 return scene

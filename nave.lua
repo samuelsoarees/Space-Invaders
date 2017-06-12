@@ -17,6 +17,7 @@ function nave:criar()
 	physics.start(true)
 	physics.setGravity(0,0)
 	physics.addBody(nave.design,{friction = 1, bounce = 0})
+	nave.design.isFixedRotation = true
 	
 	return nave
 
