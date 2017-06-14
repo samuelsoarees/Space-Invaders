@@ -6,18 +6,21 @@ local widget = require("widget")
 
 local espacoSideral = require("espacoSideral")
 
+local cAliensMove = require("controllerAliensMove")
+
 local physics = require("physics")
 
 local tiroNave = {}
 
-local sceneAliens
+local aliens
 
 local tempoAlien
 
 local direcao = "direita"
 
 
-
+-- Criação da cena
+-- ===========================================================================================================================================================
 function scene:create(event) 
 	
 	local sceneGroup = self.view
@@ -30,7 +33,7 @@ function scene:create(event)
 	espacoSideral:criar()
 
 	--tabela com todos os alienigenas criados
-	local aliens = espacoSideral:criarAliens()
+	aliens = espacoSideral:criarAliens()
 
 	espacoSideral:criarEscudos()
 
@@ -55,11 +58,9 @@ function scene:create(event)
 	--physics.setDrawMode("hybrid")
 
 
-	-- Adiciona toda a tabela de alienigenas criados ao grupo especifico
+	-- Adiciona colisao aos aliens
 	for i = 1 , #aliens do
 		
-		--sceneAliens:insert(aliens[i].design)
-		--aliens[i].design.collision =  colisaoTiro
 		aliens[i].design:addEventListener("collision", colisaoTiro)
 
 	end
@@ -79,46 +80,29 @@ function scene:create(event)
 
 end
 
+-- =====================================================================================================================================================
 
+
+--Movimentações de alienigenas na tela 
+-- ====================================================================================================================================================
 --Move os alienigenas na tela
 function moverAliens()
-	local colisaoDireita = colisaoDireita()
-	local colisaoEsquerda = colisaoEsquerda()
-
-
+	
 	if direcao == "direita" then
+		moverAliensEsquerda()
+	end	
 
-		if colisaoDireita ~= true then
-			-- mover o grupo x,y
-			sceneAliens:translate(10,0)
-
-		else
-
-			sceneAliens:translate(0,10)
-			direcao = "esquerda"
-
-		end	
-
-	elseif direcao == "esquerda" then
-
-		if colisaoEsquerda ~= true then
-			
-			sceneAliens:translate(-10,0)
-
-		else	
-
-			sceneAliens:translate(0,10)
-			direcao = "direita"
-		
+end
 
 
-		end
-	elseif direcao == "baixo" then
+function moverAliensEsquerda()
 
-		timer.pause(tempoAlien)
+	for i = 1 , #aliens do
 
+		aliens[i].design.x = aliens[i].design.x + 10
 
 	end
+
 
 end
 
@@ -159,8 +143,13 @@ function colisaoDireita()
 	
 end
 
+-- =====================================================================================================================================================
 
 
+
+
+-- Movimentação dos tiros 
+-- ====================================================================================================================================================
 function removerTiro()
 	
 	if tiroNave.design ~= nil and tiroNave.design.y <= 0  then
@@ -174,8 +163,6 @@ function removerTiro()
 	end
 
 end
-
-
 
 
 function moverTiroNave()
@@ -192,7 +179,6 @@ function moverTiroNave()
 
 	end
 
-
 end
 
 
@@ -203,7 +189,6 @@ function atirarNave(event)
 		
 		tiroNave.design = espacoSideral:naveAtirar(espacoSideral.nave.design.x,espacoSideral.nave.design.y)
 		tiroNave.collision = colisaoTiro
-		--tiroNave.design:addEventListener("collision", colisaoTiro)
 		timer.resume(tempoTiro)
 
 
@@ -216,20 +201,22 @@ function colisaoTiro(event)
 	
 	if event.phase == "began" then
 
-		
-
 		timer.pause(tempoTiro)
 		tiroNave.design:removeSelf()
 		tiroNave.design = nil
 		event.target:removeSelf()
 
-		
-
 	end
-
 
 end
 
+-- ===========================================================================================================================================================
+
+
+
+
+-- Movimento da nave
+-- ===========================================================================================================================================================
 
 function moverNaveEsquerda(event) 
 
@@ -244,7 +231,7 @@ function moverNaveDireita(event)
 	espacoSideral:moverNaveDireita()
 
 end
-
+-- ===========================================================================================================================================================
 
 scene:addEventListener( "create", scene )
 
