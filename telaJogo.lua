@@ -6,7 +6,7 @@ local widget = require("widget")
 
 local espacoSideral = require("espacoSideral")
 
-local cAliensMove = require("controllerAliensMove")
+--local cAliensMove = require("controllerAliensMove")
 
 local physics = require("physics")
 
@@ -16,7 +16,7 @@ local aliens
 
 local tempoAlien
 
-local direcao = "direita"
+local direcao = "esquerda"
 
 
 -- Criação da cena
@@ -89,51 +89,40 @@ end
 function moverAliens()
 	
 	if direcao == "direita" then
+		
+		moverAliensDireita()
+
+	elseif direcao == "esquerda" then
+
 		moverAliensEsquerda()
-	end	
+	end 
 
 end
 
 
-function moverAliensEsquerda()
+function moverAliensDireita()
+	local colisaoDireita = colisaoDireita()
 
 	for i = 1 , #aliens do
+		
+		if colisaoDireita ~= true then
 
-		aliens[i].design.x = aliens[i].design.x + 10
-
-	end
-
-
-end
-
-
---Verifica a colisao dos aliens nas paredes a esquerda
-function colisaoEsquerda()
-	
-	for i = 1, sceneAliens.numChildren do
-
-		local x,y = sceneAliens[i]:localToContent(0,0)
-
-		if x == 10 then
+			if aliens[i].design.x ~=nil then
 			
-			return true
+				aliens[i].design.x = aliens[i].design.x + 10	
 
-		end	
-
+			end
+		end
 	end
 
 end
-
-
 
 --Verifica a colisao dos aliens nas paredes a direita
 function colisaoDireita()
 
-	for i = 1 , sceneAliens.numChildren do
-		
-		local x , y = sceneAliens[i]:localToContent(0,0) 
-		
-		if  x == (display.contentWidth - 10)  then
+	for i = 1 , #aliens do
+				
+		if  aliens[i].design.x == (display.contentWidth - 10)  then
 		
 			return true
 	
@@ -142,6 +131,48 @@ function colisaoDireita()
 	end
 	
 end
+
+--Mover aliens esquerda
+function moverAliensEsquerda()
+	local colisaoEsquerda = colisaoEsquerda()
+
+	for i = 1, #aliens do
+
+		if colisaoEsquerda ~= true then
+			
+			if aliens[i].design.x ~= nil then
+
+				aliens[i].design.x = aliens[i].design.x - 10
+
+			end
+
+		end
+	end
+
+end
+
+function colisaoEsquerda()
+
+	for i = 1, #aliens do
+
+		if aliens[i].design.x == 10 then 
+
+			return true
+
+		end
+
+	end
+
+end
+
+
+-- Mover aliens para baixo
+function moverAliensBaixo(  )
+	-- body
+end
+
+
+
 
 -- =====================================================================================================================================================
 
