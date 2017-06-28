@@ -256,7 +256,10 @@ function atirarNave(event)
 		tiroNave.design = espacoSideral:naveAtirar(espacoSideral.nave.design.x,espacoSideral.nave.design.y)
 		tiroNave.collision = colisaoTiro
 		timer.resume(tempoTiro)
-
+		
+		local somtiro = audio.loadSound( "sons/shoot.wav" )
+	
+		local toqueSom = audio.play(somtiro)
 
 	end
 
