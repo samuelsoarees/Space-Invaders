@@ -24,7 +24,7 @@ function scene:create(event)
 	
 	local sceneGroup = self.view
 
-	myImage = display.newImage( "Space.jpg" )
+	myImage = display.newImage( "Imagens/Space.jpg" )
 	sceneAliens = display.newGroup()
 	sceneTiros = display.newGroup()
 

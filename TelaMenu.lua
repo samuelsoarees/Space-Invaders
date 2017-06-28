@@ -11,7 +11,7 @@ function scene:create(event)
 	sceneGroup = self.view
 
 
-	myImage = display.newImage( "Space.jpg" )
+	myImage = display.newImage( "Imagens/Space.jpg" )
 	
 
 	local titulo = display.newText({text = "Space Invaders", x = display.contentWidth/2, y = display.contentHeight/10, fontSize = 40})
@@ -25,7 +25,7 @@ function scene:create(event)
     		y = display.contentHeight/2,
        		width = 200,
         	height = 120,
-        	defaultFile = "play.png",
+        	defaultFile = "Imagens/play.png",
         	onEvent = inicioJogo
     	}
 	)
