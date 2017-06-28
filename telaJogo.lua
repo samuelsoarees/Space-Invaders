@@ -18,6 +18,8 @@ local direcao = "direita"
 
 local pontos 
 
+local vidas
+
 -- Criação da cena
 -- ===========================================================================================================================================================
 function scene:create(event) 
@@ -29,8 +31,13 @@ function scene:create(event)
 	sceneTiros = display.newGroup()
 
 	local linhaCima = display.newLine(0,display.contentHeight/7 * 1  , display.contentWidth , display.contentHeight/7 * 1 )
+	
 	local textPontos =  display.newText({text = "Pontos:", x = display.contentWidth/7 * 4.7, y = display.contentHeight/7 - 15, fontSize = 20})
 	pontos =  display.newText({text = "0", x = display.contentWidth/7 * 6, y = display.contentHeight/7 - 15, fontSize = 20})
+	
+	local textVidas = display.newText({text = "Vidas:", x = display.contentWidth/7 * 1, y = display.contentHeight/7 - 15, fontSize = 20})
+	vidas = display.newText({text = "3", x = display.contentWidth/7 * 2, y = display.contentHeight/7 - 15, fontSize = 20})
+
 
 	--cria a nave espacial
 	espacoSideral:criar()
