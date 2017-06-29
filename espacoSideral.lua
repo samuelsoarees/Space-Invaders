@@ -18,24 +18,43 @@ function espacoSideral:criar()
 
 end
 
-function espacoSideral:criarEscudos()
+
+function espacoSideral:posicionaEscudos()
+	local posicaoX = display.contentWidth/5
 	
-	local posicaoX = display.contentWidth/4
 	local posicaoY = display.contentHeight/5
 
 
-	for i = 1 , 3 , 1 do
-		local novoEscudo = escudo:new()
+	for i = 1, 3 do
 
-		novoEscudo.design = display.newCircle(posicaoX,(posicaoY*4),15)
-		
-		espacoSideral.escudo = novoEscudo
+		espacoSideral:criarEscudo(posicaoX,posicaoY)
 
 		posicaoX = posicaoX + 80
+	end
+end
+
+
+function espacoSideral:criarEscudo(posicaoX,posicaoY)
+	
+	for i = 1, 5 do
+		s = posicaoX
+		for j = 1, 5 do
+		
+			local novoEscudo =  escudo:new()
+
+			novoEscudo.design = display.newRect(s,(posicaoY*4),6,6)
+			physics.addBody(novoEscudo.design,{friction = 1, bounce = 0})
+			table.insert(espacoSideral.escudo, novoEscudo)
+			s = s + 7
+			
+		end
+		
+		s = display.contentWidth/5
+		posicaoY = posicaoY +2
 
 	end
-
 end
+
 
 
 --Cria todos os aliens e adiciona na tabela de espacoSideral
