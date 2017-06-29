@@ -46,7 +46,7 @@ function scene:create(event)
 	aliens = espacoSideral:criarAliens()
 
 	
-	espacoSideral:criarEscudos3()
+	espacoSideral:posicionaEscudos()
 
 	
 	local butaoD = widget.newButton({x =(display.contentWidth/4)*3 ,y =display.contentHeight/3 ,width = display.contentWidth/2, height = display.contentHeight/4 * 2  ,onRelease = moverNaveDireita})
@@ -68,14 +68,6 @@ function scene:create(event)
 	physics.setGravity(0,0)
 	--physics.setDrawMode("hybrid")
 
-
-	-- Adiciona colisao aos aliens
-	for i = 1 , #aliens do
-		
-		aliens[i].design:addEventListener("collision", colisaoTiro)
-
-	end
-
 	--grupo da tela
 	sceneGroup:insert(myImage)
 	sceneGroup:insert(espacoSideral.nave.design)
@@ -86,7 +78,7 @@ function scene:create(event)
 
 
 	-- Move os alienigenas a cada um segundo
-	--tempoAlien = timer.performWithDelay(1000,moverAliens, 0)	
+	tempoAlien = timer.performWithDelay(0500,moverAliens, 0)	
 	
 	
 	tempoTiro = timer.performWithDelay(0005,moverTiroNave, 0)	
@@ -119,22 +111,19 @@ end
 
 function moverAliensDireita()
 	local colisaoDireita = colisaoDireita()
-
-	for i = 1 , #aliens do
-		
-		if colisaoDireita ~= true then
-
+	if colisaoDireita ~= true then
+		for i = 1 , #aliens do
 			if aliens[i].design.x ~=nil then
 			
 				aliens[i].design.x = aliens[i].design.x + 10	
 
 			end
-		else
+		end
+	else
 			
 			moverAliensBaixo()
 			direcao ="esquerda"
 
-		end
 	end
 
 end
@@ -143,11 +132,12 @@ end
 function colisaoDireita()
 
 	for i = 1 , #aliens do
-				
-		if  aliens[i].design.x >= (display.contentWidth - 20)  then
+		if aliens[i].design.x ~=nil then				
+			if  aliens[i].design.x >= (display.contentWidth - 20)  then
 		
-			return true
+				return true
 	
+			end
 		end
 
 	end
@@ -157,23 +147,20 @@ end
 --Mover aliens esquerda
 function moverAliensEsquerda()
 	local colisaoEsquerda = colisaoEsquerda()
-
-	for i = 1, #aliens do
-
-		if colisaoEsquerda ~= true then
-			
+	if colisaoEsquerda ~= true then
+		for i = 1, #aliens do
 			if aliens[i].design.x ~= nil then
-
+	
 				aliens[i].design.x = aliens[i].design.x - 10
 
 			end
-
-		else
-			moverAliensBaixo()
-
-			direcao = "direita"
-
 		end
+
+	else
+		moverAliensBaixo()
+
+		direcao = "direita"
+
 	end
 
 end
@@ -181,13 +168,13 @@ end
 function colisaoEsquerda()
 
 	for i = 1, #aliens do
+		if aliens[i].design.x ~= nil then
+			if aliens[i].design.x <=20 then 
 
-		if aliens[i].design.x <=20 then 
+				return true
 
-			return true
-
+			end
 		end
-
 	end
 
 end
@@ -196,7 +183,7 @@ end
 -- Mover aliens para baixo
 function moverAliensBaixo()
 	
-	for i = #aliens, 1 , -1 do
+	for i = 1, #aliens do
 		
 		if aliens[i].design.y ~= nil then
 		
@@ -261,10 +248,10 @@ function atirarNave(event)
 	if tiroNave.design ==nil then
 		
 		tiroNave.design = espacoSideral:naveAtirar(espacoSideral.nave.design.x,espacoSideral.nave.design.y)
-		tiroNave.collision = colisaoTiro
+		tiroNave.design:addEventListener("collision", colisaoTiro)
 		timer.resume(tempoTiro)
 		
-		local somtiro = audio.loadSound( "sons/shoot.wav" )
+		local somtiro = audio.loadSound( "Sons/shoot.wav" )
 	
 		local toqueSom = audio.play(somtiro)
 
@@ -277,10 +264,14 @@ function colisaoTiro(event)
 	
 	if event.phase == "began" then
 
+		local somdestruicao = audio.loadSound( "Sons/invaderkilled.wav" )
+	
+		local toqueSom = audio.play(somdestruicao)
+
 		timer.pause(tempoTiro)
 		tiroNave.design:removeSelf()
 		tiroNave.design = nil
-		event.target:removeSelf()
+		event.other:removeSelf()
 		pontos.text = pontos.text + 10
 
 	end
