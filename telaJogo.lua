@@ -10,6 +10,8 @@ local physics = require("physics")
 
 local tiroNave = {}
 
+local tiroAlien = {}
+
 local aliens
 
 local tempoAlien
@@ -20,11 +22,14 @@ local pontos
 
 local vidas
 
+local nave
+
 -- Criação da cena
 -- ===========================================================================================================================================================
 function scene:create(event) 
 	
 	local sceneGroup = self.view
+	
 
 	myImage = display.newImage( "Imagens/Space.jpg" )
 	sceneAliens = display.newGroup()
@@ -40,7 +45,7 @@ function scene:create(event)
 
 
 	--cria a nave espacial
-	espacoSideral:criar()
+	nave = espacoSideral:criar()
 
 	--tabela com todos os alienigenas criados
 	aliens = espacoSideral:criarAliens()
@@ -78,8 +83,10 @@ function scene:create(event)
 
 
 	-- Move os alienigenas a cada um segundo
-	tempoAlien = timer.performWithDelay(0500,moverAliens, 0)	
-	
+	tempoAlien = timer.performWithDelay(0700,moverAliens, 0)	
+	tempoTiroAlien = timer.performWithDelay(0700,atirarAliens, 0)	
+	tempoMoverTiro = timer.performWithDelay(0005,moverTiroAliens, 0)	
+
 	
 	tempoTiro = timer.performWithDelay(0005,moverTiroNave, 0)	
 
@@ -247,7 +254,7 @@ function atirarNave(event)
 	
 	if tiroNave.design ==nil then
 		
-		tiroNave.design = espacoSideral:naveAtirar(espacoSideral.nave.design.x,espacoSideral.nave.design.y)
+		tiroNave.design = espacoSideral:naveAtirar(nave.design.x,nave.design.y)
 		tiroNave.design:addEventListener("collision", colisaoTiro)
 		timer.resume(tempoTiro)
 		
@@ -277,6 +284,74 @@ function colisaoTiro(event)
 	end
 
 end
+
+-- ===========================================================================================================================================================
+
+
+
+--Tiro dos aliens
+-- ===========================================================================================================================================================
+
+function atirarAliens()
+	if tiroAlien.design == nil then
+		for i = #aliens, 1 , -1 do
+		
+			if aliens[i].design ~=nil then
+			
+				local aleatorio = math.random(1,#aliens)
+
+				tiroAlien.design = espacoSideral:aliensAtirar(aliens[aleatorio].design.x , aliens[i].design.y + 40)
+				tiroAlien.design:addEventListener("collision",colisaoTiroAlien)
+				break
+
+			end
+		end
+	end
+end
+
+function moverTiroAliens()
+	
+	if tiroAlien.design ~= nil then
+
+		tiroAlien.design.y= tiroAlien.design.y + 10
+
+	end
+	
+	if tiroAlien.design ~= nil and tiroAlien.design.y >= display.contentHeight  then
+
+		tiroAlien.design:removeSelf()
+
+		tiroAlien.design = nil
+	end
+end
+
+
+
+
+
+function colisaoTiroAlien(event)
+	if event.phase == "began" then
+
+		tiroAlien.design:removeSelf()
+		tiroAlien.design = nil
+		if nave.x ~=nil and event.other.design.x == nave.x then
+			
+			event.other:removeSelf()
+			vidas.text = vidas.text -1
+		else
+
+			
+			event.other:removeSelf()
+			
+
+		end
+
+	end
+end
+
+
+
+
 
 -- ===========================================================================================================================================================
 

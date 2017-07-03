@@ -3,7 +3,8 @@ local class = require("30log")
 
 local nave = class("nave", {
 	
-	design
+	design,
+	id = "nave"
 	
 }
 
