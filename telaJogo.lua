@@ -24,6 +24,8 @@ local vidas
 
 local nave
 
+local escudos
+
 local sceneGroup
 
 -- Criação da cena
@@ -43,7 +45,7 @@ function scene:create(event)
 	pontos =  display.newText({text = "0", x = display.contentWidth/7 * 6, y = display.contentHeight/7 - 15, fontSize = 20})
 	
 	local textVidas = display.newText({text = "Vidas:", x = display.contentWidth/7 * 1, y = display.contentHeight/7 - 15, fontSize = 20})
-	vidas = display.newText({text = "3", x = display.contentWidth/7 * 2, y = display.contentHeight/7 - 15, fontSize = 20})
+	vidas = display.newText({text = "1", x = display.contentWidth/7 * 2, y = display.contentHeight/7 - 15, fontSize = 20})
 
 
 	--cria a nave espacial
@@ -54,7 +56,7 @@ function scene:create(event)
 	aliens = espacoSideral:criarAliens()
 
 	
-	espacoSideral:posicionaEscudos()
+	escudos = espacoSideral:posicionaEscudos()
 
 	
 	local butaoD = widget.newButton({x =(display.contentWidth/4)*3 ,y =display.contentHeight/3 ,width = display.contentWidth/2, height = display.contentHeight/4 * 2  ,onRelease = moverNaveDireita})
@@ -74,7 +76,17 @@ function scene:create(event)
 	physics.addBody(linhaEsquerda, "static", { friction = 1, bounce = 0 })		
 
 	physics.setGravity(0,0)
-	physics.setDrawMode("hybrid")
+	--physics.setDrawMode("hybrid")
+
+	for i = 1 , #aliens do
+
+		sceneGroup:insert(aliens[i].design)
+
+	end
+
+	for i = 1 , #escudos do
+		sceneGroup:insert(escudos[i].design)
+	end
 
 	--grupo da tela
 	--sceneGroup:insert(myImage)
@@ -83,15 +95,21 @@ function scene:create(event)
 	sceneGroup:insert(butaoE)
 	sceneGroup:insert(linhaCima)
 	sceneGroup:insert(pontos)
+	sceneGroup:insert(vidas)
+	sceneGroup:insert(textVidas)
+	sceneGroup:insert(textPontos)
+	sceneGroup:insert(linhaDireita)
+	sceneGroup:insert(linhaEsquerda)
+	sceneGroup:insert(atirar)
 
 
 	-- Move os alienigenas a cada um segundo
 	tempoAlien = timer.performWithDelay(0700,moverAliens, 0)	
 	tempoTiroAlien = timer.performWithDelay(0700,atirarAliens, 0)	
-	tempoMoverTiro = timer.performWithDelay(0005,moverTiroAliens, 0)	
-
-	
+	tempoMoverTiro = timer.performWithDelay(0005,moverTiroAliens, 0)
 	tempoTiro = timer.performWithDelay(0005,moverTiroNave, 0)	
+
+
 
 end
 
@@ -335,6 +353,7 @@ end
 function reiniciaNave()
 
 		nave = espacoSideral:criar()
+		sceneGroup:insert(nave.design)
 end
 
 
@@ -357,7 +376,7 @@ function colisaoTiroAlien(event)
 				
 			else
 				
-				composer.removeScene("telaJogo")
+				gameOver()
 			end
 			
 		else
@@ -392,6 +411,39 @@ function moverNaveDireita(event)
 
 end
 -- ===========================================================================================================================================================
+
+function gameOver()
+	
+	timer.pause(tempoAlien)
+	timer.pause(tempoTiroAlien)
+	timer.pause(tempoMoverTiro)
+	timer.pause(tempoTiro)
+	
+	for i = 1, #aliens do
+		if aliens[i].design.x~=nil then
+			aliens[i].design:removeSelf()
+		end
+	end
+
+
+	for i = 1 , #escudos do
+		if escudos[i].design.x ~=nil then
+			escudos[i].design:removeSelf()
+
+		end
+
+	end
+
+	options = {params = { pontos = pontos.text}}
+	
+
+	
+	composer.gotoScene("gameOver",options)
+
+end
+
+
+
 
 scene:addEventListener( "create", scene )
 

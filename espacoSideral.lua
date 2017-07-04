@@ -34,6 +34,8 @@ function espacoSideral:posicionaEscudos()
 
 		posicaoX = posicaoX + 80
 	end
+
+	return espacoSideral.escudo
 end
 
 
