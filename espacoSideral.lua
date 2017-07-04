@@ -16,7 +16,7 @@ espacoSideral  = {
 function espacoSideral:criar()
 
 	self.nave = nave:criar()
-	self.nave.id = "nave"
+	self.nave.design.id = "nave"
 	return self.nave
 
 end
@@ -102,7 +102,6 @@ function espacoSideral:aliensAtirar(posicaoX,posicaoY)
 
 	self.tiroAlien = tiro:new()
 	self.tiroAlien.design = display.newLine(posicaoX,posicaoY-20, posicaoX , posicaoY -5)
-
 	physics.addBody(self.tiroAlien.design,{friction = 1, bounce = 0})
 	return self.tiroAlien.design
 

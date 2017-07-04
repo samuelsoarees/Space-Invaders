@@ -24,14 +24,16 @@ local vidas
 
 local nave
 
+local sceneGroup
+
 -- Criação da cena
 -- ===========================================================================================================================================================
 function scene:create(event) 
 	
-	local sceneGroup = self.view
+	sceneGroup = self.view
 	
 
-	myImage = display.newImage( "Imagens/Space.jpg" )
+	
 	sceneAliens = display.newGroup()
 	sceneTiros = display.newGroup()
 
@@ -46,6 +48,7 @@ function scene:create(event)
 
 	--cria a nave espacial
 	nave = espacoSideral:criar()
+
 
 	--tabela com todos os alienigenas criados
 	aliens = espacoSideral:criarAliens()
@@ -71,11 +74,11 @@ function scene:create(event)
 	physics.addBody(linhaEsquerda, "static", { friction = 1, bounce = 0 })		
 
 	physics.setGravity(0,0)
-	--physics.setDrawMode("hybrid")
+	physics.setDrawMode("hybrid")
 
 	--grupo da tela
-	sceneGroup:insert(myImage)
-	sceneGroup:insert(espacoSideral.nave.design)
+	--sceneGroup:insert(myImage)
+	sceneGroup:insert(nave.design)
 	sceneGroup:insert(butaoD)
 	sceneGroup:insert(butaoE)
 	sceneGroup:insert(linhaCima)
@@ -299,11 +302,14 @@ function atirarAliens()
 			if aliens[i].design ~=nil then
 			
 				local aleatorio = math.random(1,#aliens)
+				
+				if aliens[aleatorio].design.x~=nil then
+					
+					tiroAlien.design = espacoSideral:aliensAtirar(aliens[aleatorio].design.x , aliens[i].design.y + 40)
+					tiroAlien.design:addEventListener("collision",colisaoTiroAlien)
+					break
 
-				tiroAlien.design = espacoSideral:aliensAtirar(aliens[aleatorio].design.x , aliens[i].design.y + 40)
-				tiroAlien.design:addEventListener("collision",colisaoTiroAlien)
-				break
-
+				end
 			end
 		end
 	end
@@ -326,18 +332,34 @@ function moverTiroAliens()
 end
 
 
+function reiniciaNave()
 
+		nave = espacoSideral:criar()
+end
 
 
 function colisaoTiroAlien(event)
 	if event.phase == "began" then
 
+
+
+
+
 		tiroAlien.design:removeSelf()
 		tiroAlien.design = nil
-		if nave.x ~=nil and event.other.design.x == nave.x then
+		
+		if event.other.id ~= nil and event.other.id == "nave" then
 			
-			event.other:removeSelf()
-			vidas.text = vidas.text -1
+			if vidas.text > "1" then
+				event.other:removeSelf()
+				vidas.text = vidas.text -1
+				timer.performWithDelay(10,reiniciaNave)		
+				
+			else
+				
+				composer.removeScene("telaJogo")
+			end
+			
 		else
 
 			
@@ -348,11 +370,6 @@ function colisaoTiroAlien(event)
 
 	end
 end
-
-
-
-
-
 -- ===========================================================================================================================================================
 
 

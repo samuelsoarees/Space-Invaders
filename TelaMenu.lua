@@ -11,7 +11,7 @@ function scene:create(event)
 	sceneGroup = self.view
 
 
-	myImage = display.newImage( "Imagens/Space.jpg" )
+	
 	
 
 	local titulo = display.newText({text = "Space Invaders", x = display.contentWidth/2, y = display.contentHeight/10, fontSize = 40})
@@ -30,7 +30,7 @@ function scene:create(event)
     	}
 	)
 
-	sceneGroup:insert(myImage)
+	--sceneGroup:insert(myImage)
 	sceneGroup:insert(botaoPlay)
 	sceneGroup:insert(play)
 	sceneGroup:insert(titulo)
